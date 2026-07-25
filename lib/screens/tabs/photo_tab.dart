@@ -89,6 +89,9 @@ class _PhotoTabState extends State<PhotoTab> {
         final data = json.decode(resBody);
         final url = data['secure_url'];
 
+        // Add a small delay to let Cloudinary CDN propagate
+        await Future.delayed(const Duration(seconds: 1));
+
         final uid = FirebaseAuth.instance.currentUser?.uid;
         if (uid == null) throw Exception('Not authenticated');
         await FirebaseFirestore.instance
@@ -137,18 +140,19 @@ class _PhotoTabState extends State<PhotoTab> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton.icon(
-                  onPressed: () {
+                  onPressed: () async {
                     setState(() {
                       _hasError = false;
                       _errorMessage = '';
-                      _imageLoading = true; // Start loading state
+                      _imageLoading = true;
                     });
-                    // Force rebuild to show loading state
+                    if (_imageUrl != null) {
+                      await NetworkImage(_imageUrl!).evict();
+                    }
                     Future.delayed(const Duration(milliseconds: 600), () {
                       if (mounted) {
                         setState(() {
-                          _imageLoading =
-                              false; // Stop loading after a brief moment
+                          _imageLoading = false;
                         });
                       }
                     });
@@ -278,16 +282,17 @@ class _PhotoTabState extends State<PhotoTab> {
                       ),
                       const SizedBox(height: 16),
                       ElevatedButton.icon(
-                        onPressed: () {
+                        onPressed: () async {
                           setState(() {
-                            _imageLoading = true; // Start loading state
+                            _imageLoading = true;
                           });
-                          // Force rebuild to show loading state
+                          if (_imageUrl != null) {
+                            await NetworkImage(_imageUrl!).evict();
+                          }
                           Future.delayed(const Duration(milliseconds: 800), () {
                             if (mounted) {
                               setState(() {
-                                _imageLoading =
-                                    false; // Stop loading after a brief moment
+                                _imageLoading = false;
                               });
                             }
                           });

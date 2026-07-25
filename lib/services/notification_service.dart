@@ -47,7 +47,9 @@ class NotificationService {
       const InitializationSettings initializationSettings =
           InitializationSettings(android: initializationSettingsAndroid);
 
-      await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+      await flutterLocalNotificationsPlugin.initialize(
+        settings: initializationSettings,
+      );
 
       print('NotificationService: Initialized successfully');
     } catch (e) {
@@ -67,10 +69,10 @@ class NotificationService {
       );
 
       await flutterLocalNotificationsPlugin.show(
-        id,
-        title,
-        body,
-        NotificationDetails(
+        id: id,
+        title: title,
+        body: body,
+        notificationDetails: NotificationDetails(
           android: AndroidNotificationDetails(
             channel.id,
             channel.name,

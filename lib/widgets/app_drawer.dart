@@ -157,7 +157,7 @@ class AppDrawer extends StatelessWidget {
 
   Widget _buildNavItem(
     BuildContext context, {
-    required IconData icon,
+    required FaIconData icon,
     required String title,
     required int index,
   }) {
