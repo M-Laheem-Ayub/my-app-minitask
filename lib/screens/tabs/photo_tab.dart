@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'dart:convert';
 
 class PhotoTab extends StatefulWidget {
@@ -22,8 +23,8 @@ class _PhotoTabState extends State<PhotoTab> {
   String _errorMessage = '';
 
   // ⚡ apna cloudinary config
-  final String cloudName = "drj4aeuph";
-  final String uploadPreset = "my_app";
+  final String cloudName = dotenv.env['CLOUDINARY_CLOUD_NAME'] ?? '';
+  final String uploadPreset = dotenv.env['CLOUDINARY_UPLOAD_PRESET'] ?? '';
 
   @override
   void initState() {
