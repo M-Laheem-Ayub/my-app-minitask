@@ -18,7 +18,7 @@
 
 ## 📖 Overview
 
-This repository contains the completed **Mobile App Development Task** assigned by **CodeNova**. The objective was to build a fun, simple, and elegant full-stack Flutter application integrating Firebase Authentication, Cloud Firestore, Firebase Storage, and Local Notifications. The app focuses on clean code architecture and beautiful UI/UX design principles as requested.
+This repository contains the completed **Mobile App Development Task** assigned by **CodeNova**. The objective was to build a fun, simple, and elegant full-stack Flutter application integrating Firebase Authentication, Cloud Firestore, Cloudinary (for robust image uploads), and a Unified Notifications Service. The app focuses on clean code architecture and beautiful UI/UX design principles as requested.
 
 ## ✨ Features
 
@@ -35,12 +35,12 @@ The application consists of **6 primary screens** and incorporates the following
 
 3. **Notification Screen (Tab 1)**
    - Features a prominent red button.
-   - On press, it triggers a local push notification sent directly to the device.
+   - Triggers local push notifications directly to the device utilizing a custom `UnifiedNotificationService` (built for cross-platform compatibility across Web and Mobile).
 
 4. **Photo Screen (Tab 2)**
    - Allows users to capture an image via Camera or select one from the Gallery.
-   - Uploads the selected image to Firebase Storage and saves the reference in Firestore.
-   - Retrieves and displays the uploaded photo seamlessly on the frontend.
+   - Safely uploads the image directly to **Cloudinary** using its REST API via HTTP multi-part requests.
+   - Saves the secure Cloudinary image URL in Firestore and fetches it to display on the frontend instantly.
 
 5. **Text Screen (Tab 3)**
    - Users can write and publish text messages.
@@ -72,8 +72,9 @@ Here's a glimpse of the application's beautiful UI/UX:
 - **Backend as a Service (BaaS)**: [Firebase](https://firebase.google.com/)
   - **Firebase Authentication**: Secure user login.
   - **Cloud Firestore**: Real-time NoSQL Database.
-  - **Firebase Storage**: Cloud object storage for images.
-- **Local Notifications**: `flutter_local_notifications`
+- **Media Storage**: [Cloudinary](https://cloudinary.com/) (Direct API integrations via HTTP).
+- **Environment Management**: `flutter_dotenv` (for safely storing Cloudinary secrets).
+- **Notifications**: Custom Unified Notification Service (wrapping `flutter_local_notifications`).
 - **Image Handling**: `image_picker`
 - **State Management**: Native Flutter (Stateful/Stateless Widgets, Streams)
 
@@ -84,14 +85,14 @@ Follow these instructions to get a copy of the project up and running on your lo
 ### Prerequisites
 - Flutter SDK (`^3.9.0` or newer)
 - Android Studio / VS Code
-- *Note: To run the app from source with full backend connectivity, you need to configure your own Firebase project and include the `google-services.json` / `GoogleService-Info.plist` files, or use the pre-built APK.*
+- *Note: To run the app from source with full backend connectivity, you need to configure your own Firebase project (`google-services.json` / `GoogleService-Info.plist`) and a `.env` file containing `CLOUDINARY_CLOUD_NAME` and `CLOUDINARY_UPLOAD_PRESET`. Alternatively, you can just test via the pre-built APK.*
 
 ### Installation
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/codenova-task.git
-   cd codenova-task
+   git clone https://github.com/M-Laheem-Ayub/my-app-minitask.git
+   cd my-app-minitask
    ```
 
 2. **Install Dependencies:**
